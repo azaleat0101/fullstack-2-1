@@ -1,0 +1,31 @@
+$main-color: #3498db;
+$sub-color: #333;
+$font-size: 16px;
+
+@mixin border-radius($radius) {
+  border-radius: $radius;
+}
+
+.product-card {
+  width: 300px;
+  border: 1px solid #ddd;
+  padding: 15px;
+  @include border-radius(8px);
+  
+  img {
+    width: 100%;
+    height: auto;
+  }
+  
+  h3 {
+    color: $main-color;
+    font-size: $font-size + 4;
+    margin: 10px 0;
+  }
+  
+  p {
+    font-size: $font-size;
+    color: $sub-color;
+    line-height: 1.4;
+  }
+}
