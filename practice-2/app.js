@@ -24,7 +24,7 @@ app.post('/goods', (req, res) => {
         price
     };
 
-    users.push(newProduct);
+    goods.push(newProduct);
     res.status(201).json(newProduct);
 });
 
