@@ -76,7 +76,7 @@ function authMiddleware(req, res, next) {
     }
 
     try {
-        const payload = jwt.verify(token, JWT_SECRET);
+        const payload = jwt.verify(token, ACCESS_SECRET);
         req.user = payload; 
         next();            
     } catch (err) {
