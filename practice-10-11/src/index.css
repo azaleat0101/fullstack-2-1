@@ -1,0 +1,294 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: sans-serif;
+  background: #f5f5f5;
+  color: #333;
+}
+
+.header {
+  background: #3f7e83;
+  color: white;
+  padding: 16px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h1 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.header button {
+  background: white;
+  color:#3f7e83;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Страницы логина/регистрации */
+.container {
+  max-width: 400px;
+  margin: 60px auto;
+  background: white;
+  padding: 32px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: center; 
+}
+
+.container h1 {
+  margin-bottom: 24px;
+}
+
+/* Инпуты */
+input {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  text-align: left;
+}
+
+input:focus {
+  border-color: #3f7e83;
+}
+
+/* Кнопки */
+button {
+  padding: 10px 20px;
+  background: #3f7e83;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+button:hover {
+  background: #3f7e83;
+}
+
+button.danger {
+  background: #ef4444;
+}
+
+button.danger:hover {
+  background: #dc2626;
+}
+
+button.secondary {
+  background: #6b7280;
+}
+
+button.secondary:hover {
+  background: #4b5563;
+}
+
+/* Ошибка и ссылки */
+p.error { color: red; font-size: 13px; margin-bottom: 12px; }
+p a { color: #3f7e83; text-decoration: none; }
+p { margin-top: 16px; }
+
+/* Основной контент */
+.main {
+  max-width: 1100px;
+  margin: 32px auto;
+  padding: 0 24px;
+}
+
+/* Форма добавления товара */
+.add-form {
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  margin-bottom: 32px;
+}
+
+.add-form h2 {
+  margin-bottom: 16px;
+}
+
+.add-form input {
+  width: 100%;
+}
+
+/* Сетка товаров */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* Карточка товара */
+.product-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.product-card h3 {
+  font-size: 16px;
+}
+
+.product-card .price {
+  font-size: 18px;
+  font-weight: bold;
+  color: #3f7e83;
+}
+
+.product-card .category {
+  font-size: 12px;
+  color: #6b7280;
+  text-transform: uppercase;
+}
+
+.product-card .description {
+  font-size: 13px;
+  color: #555;
+  flex: 1;
+}
+
+.product-card .actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.product-card .actions button {
+  flex: 1;
+  margin: 0;
+  padding: 8px;
+  font-size: 13px;
+}
+
+/* Модальное окно */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal {
+  background: white;
+  padding: 32px;
+  border-radius: 10px;
+  width: 400px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+.modal h2 {
+  margin-bottom: 20px;
+}
+
+.modal .actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  justify-content: center;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.role-badge {
+  background: rgba(255,255,255,0.2);
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+.users-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.user-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.user-card select {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+}
+
+.user-card p {
+  margin-top: 0;
+}
+
+input,
+select {
+  display: block;
+  width: 100%;
+  padding: 10px 42px 10px 12px;
+  margin-bottom: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  text-align: left;
+  background: white;
+  color: #333;
+}
+
+input:focus,
+select:focus {
+  border-color: #3f7e83;
+}
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' viewBox='0 0 24 24'><path d='M6 9l6 6 6-6' stroke='%233f7e83' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+}
+
+select option {
+  color: #333;
+}
+
+
