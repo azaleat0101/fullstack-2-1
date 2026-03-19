@@ -11,6 +11,7 @@ function ProductsPage({ setIsAuth, role }) {
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
 
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [editProduct, setEditProduct] = useState(null);
@@ -18,6 +19,7 @@ function ProductsPage({ setIsAuth, role }) {
   const [editCategory, setEditCategory] = useState('');
   const [editDescription, setEditDescription] = useState('');
   const [editPrice, setEditPrice] = useState('');
+  const [editImageUrl, setEditImageUrl] = useState('');
 
   const navigate = useNavigate();
 
@@ -42,11 +44,13 @@ function ProductsPage({ setIsAuth, role }) {
         category,
         description,
         price: Number(price),
+        imageUrl: imageUrl || null,
       });
       setTitle('');
       setCategory('');
       setDescription('');
       setPrice('');
+      setImageUrl('');
       setAddModalOpen(false);
       fetchProducts();
     } catch (err) {
@@ -60,6 +64,7 @@ function ProductsPage({ setIsAuth, role }) {
     setEditCategory(product.category);
     setEditDescription(product.description);
     setEditPrice(product.price);
+    setEditImageUrl(product.imageUrl || '');
     setEditModalOpen(true);
   };
 
@@ -71,6 +76,7 @@ function ProductsPage({ setIsAuth, role }) {
         category: editCategory,
         description: editDescription,
         price: Number(editPrice),
+        imageUrl: editImageUrl || null,
       });
       setEditModalOpen(false);
       setEditProduct(null);
@@ -123,6 +129,20 @@ function ProductsPage({ setIsAuth, role }) {
         <div className="products-grid" style={{ marginTop: '24px' }}>
           {products.map((product) => (
             <div className="product-card" key={product.id}>
+              {product.imageUrl && (
+                <img
+                  src={product.imageUrl}
+                  alt={product.title}
+                  className="product-image"
+                  style={{
+                    width: '100%',
+                    height: '200px',
+                    objectFit: 'cover',
+                    marginBottom: '8px',
+                  }}
+                />
+              )}
+
               <span className="category">{product.category}</span>
               <h3>{product.title}</h3>
               <p className="description">{product.description}</p>
@@ -177,6 +197,19 @@ function ProductsPage({ setIsAuth, role }) {
                 onChange={(e) => setPrice(e.target.value)}
                 required
               />
+              <input
+                placeholder="URL изображения (https://...)"
+                value={imageUrl}
+                onChange={(e) => setImageUrl(e.target.value)}
+              />
+
+              {imageUrl && (
+                <img
+                  src={imageUrl}
+                  alt="Превью"
+                  style={{ maxWidth: '200px', marginTop: '8px' }}
+                />
+              )}
 
               <div className="actions">
                 <button type="submit">Добавить</button>
@@ -223,6 +256,19 @@ function ProductsPage({ setIsAuth, role }) {
                 onChange={(e) => setEditPrice(e.target.value)}
                 required
               />
+              <input
+                placeholder="URL изображения (https://...)"
+                value={editImageUrl}
+                onChange={(e) => setEditImageUrl(e.target.value)}
+              />
+
+              {editImageUrl && (
+                <img
+                  src={editImageUrl}
+                  alt="Превью"
+                  style={{ maxWidth: '200px', marginTop: '8px' }}
+                />
+              )}
 
               <div className="actions">
                 <button type="submit">Сохранить</button>

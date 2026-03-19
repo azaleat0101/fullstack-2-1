@@ -1,70 +1,145 @@
-# Getting Started with Create React App
+# Отчет по контрольной работе №2 (Фуллстек и бэкенд разработка)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Технологический стек
 
-## Available Scripts
+- **Backend**:
+  - Node.js, Express.js
+  - JSON Web Token (JWT) для аутентификации и авторизации
+  - bcrypt для хеширования паролей
+  - nanoid для генерации идентификаторов
+  - CORS для настройки доступа с фронтенда
+  - In-memory хранилище данных (массивы `users` и `products`)
+- **API-документация**:
+  - Swagger (OpenAPI) с использованием `swagger-jsdoc` и `swagger-ui-express`
+- **Frontend**:
+  - React (функциональные компоненты, хуки `useState`, `useEffect`)
+  - React Router (`useNavigate`) для навигации
+  - Axios (обёртка `apiClient`) для запросов к API
+  - Простая компонентная архитектура (страница товаров, страницы регистрации/логина, админ-панель)
 
-In the project directory, you can run:
+---
 
-### `npm start`
+В рамках контрольной работы №2 были выполнены следующие задания:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Практика 7
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Создано серверное приложение на Node.js, которое включает в себя следующие маршруты:
 
-### `npm test`
+- `/api/auth/register` `POST` — регистрация (создание) пользователя  
+- `/api/auth/login` `POST` — вход в систему  
+- `/api/products` `POST` — создать товар  
+- `/api/products` `GET` — получить список товаров  
+- `/api/products/:id` `GET` — получить товар по id  
+- `/api/products/:id` `PUT` — обновить параметры товара  
+- `/api/products/:id` `DELETE` — удалить товар  
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## Практика 8
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Доработано приложение из практики №7:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Реализована выдача access-токена при входе в систему  
+- Добавлен защищённый маршрут `GET /api/auth/me`, который возвращает объект текущего пользователя  
+- Защищены следующие маршруты:
+  - `GET /api/products/:id`
+  - `PUT /api/products/:id`
+  - `DELETE /api/products/:id`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## Практика 9
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Доработана программа из практического занятия №8:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Реализована генерация refresh-токенов  
+- Добавлен маршрут:
+  - `POST /api/auth/refresh` — получает refresh-токен и генерирует новую пару access- и refresh-токенов  
+- Реализовано хранение активных refresh-токенов и их валидация при обновлении пары токенов  
+- При обновлении токенов старый refresh-токен инвалидируется и заменяется новым, что повышает безопасность сессий  
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Формат ответа от метода `POST /api/auth/login`:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```json
+{
+  "accessToken": "",
+  "refreshToken": ""
+}
+```
 
-## Learn More
+## Практика 10
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Доработано задание из практического занятия №9:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Реализована фронтенд-часть приложения с использованием React.js
+- Настроена работа с backend через Axios и Bearer-токены в заголовках запросов
 
-### Code Splitting
+Реализованы страницы:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- Страница регистрации пользователя
+- Страница входа в систему
+- Страница каталога товаров (список товаров)
+- Страница управления товарами для продавца/администратора
+- Настроена автоматическая подстановка токена авторизации из localStorage в HTTP-заголовки запросов
+- При истечении access-токена реализовано получение новых токенов через POST /api/auth/refresh (refresh-токен)
 
-### Analyzing the Bundle Size
+Список маршрутов приложения:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- /api/auth/register POST — регистрация (создание) пользователя
+- /api/auth/login POST — вход в систему
+- /api/auth/refresh POST — обновление пары токенов
+- /api/auth/me GET — получение информации о текущем пользователе
+- /api/products POST — создать товар
+- /api/products GET — получить список товаров
+- /api/products/:id GET — получить товар по id
+- /api/products/:id PUT — обновить параметры товара
+- /api/products/:id DELETE — удалить товар
 
-### Making a Progressive Web App
+Клиентская часть позволяет:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- Просматривать список товаров
+- Создавать новый товар
+- Просматривать детальную информацию о товаре по id
+- Обновлять товар по id
+- Удалять товар по id
 
-### Advanced Configuration
+Для работы с приложением пользователь должен аутентифицироваться (реализованы страницы регистрации и входа).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Практика 11
 
-### Deployment
+Доработано задание из практического занятия №10: добавлена система ролей, реализующая систему прав доступа:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- Гость — не аутентифицированный пользователь
+- Пользователь — пользователь сайта (только просмотр товаров)
+- Продавец — сотрудник сайта (добавление и редактирование товаров)
+- Администратор — управленец сайта (права продавца + управление пользователями)
 
-### `npm run build` fails to minify
+Список маршрутов приложения с ролями:
+- /api/auth/register POST — Гость — регистрация (создание) пользователя
+- /api/auth/login POST — Гость — вход в систему
+- /api/auth/refresh POST — Гость — обновление пары токенов
+- /api/auth/me GET — Пользователь — получение текущего пользователя
+- /api/users GET — Администратор — получить список пользователей
+- /api/users/:id GET — Администратор — получить пользователя по id
+- /api/users/:id PUT — Администратор — обновить информацию пользователя
+- /api/users/:id DELETE — Администратор — заблокировать пользователя
+- /api/products POST — Продавец — создать товар
+- /api/products GET — Пользователь — получить список товаров
+- /api/products/:id GET — Пользователь — получить товар по id
+- /api/products/:id PUT — Продавец — обновить параметры товара
+- /api/products/:id DELETE — Администратор — удалить товар
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Клиентская часть позволяет управлять:
+
+- Товарами:
+    - Просматривать список
+    - Создавать новый товар
+    - Просматривать детальную информацию о товаре по id
+    - Обновлять товар по id
+    - Удалять товар по id
+
+- Пользователями (для администратора):
+    - Просматривать список пользователей
+    - Обновлять их информацию
+    - Блокировать пользователей
+
