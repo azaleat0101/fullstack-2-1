@@ -528,6 +528,9 @@ app.delete('/api/users/:id', authMiddleware, roleMiddleware(['admin']), (req, re
  *               price:
  *                 type: number
  *                 example: 10000
+ *               imageUrl:
+ *                 type: string
+ *                 example: https://example.com/image.jpg
  *     responses:
  *       201:
  *         description: Товар добавлен
@@ -538,24 +541,30 @@ app.delete('/api/users/:id', authMiddleware, roleMiddleware(['admin']), (req, re
  *       403:
  *         description: Доступ только для продавца и администратора
  */
-app.post('/api/products', authMiddleware, roleMiddleware(['seller', 'admin']), (req, res) => {
-    const { title, category, description, price } = req.body;
+app.post(
+    '/api/products',
+    authMiddleware,
+    roleMiddleware(['seller', 'admin']),
+    (req, res) => {
+        const { title, category, description, price, imageUrl } = req.body;
 
-    if (!title || !category || !description || price === undefined) {
-        return res.status(400).json({ error: 'Все поля обязательны' });
+        if (!title || !category || !description || price === undefined) {
+            return res.status(400).json({ error: 'Все поля обязательны' });
+        }
+
+        const newProduct = {
+            id: nanoid(),
+            title,
+            category,
+            description,
+            price,
+            imageUrl: imageUrl || null,
+        };
+
+        products.push(newProduct);
+        res.status(201).json(newProduct);
     }
-
-    const newProduct = {
-        id: nanoid(),
-        title,
-        category,
-        description,
-        price,
-    };
-
-    products.push(newProduct);
-    res.status(201).json(newProduct);
-});
+);
 
 /**
  * @swagger
@@ -573,9 +582,14 @@ app.post('/api/products', authMiddleware, roleMiddleware(['seller', 'admin']), (
  *       403:
  *         description: Доступ только для авторизованных пользователей
  */
-app.get('/api/products', authMiddleware, roleMiddleware(['user', 'seller', 'admin']), (req, res) => {
-    res.status(200).json(products);
-});
+app.get(
+    '/api/products',
+    authMiddleware,
+    roleMiddleware(['user', 'seller', 'admin']),
+    (req, res) => {
+        res.status(200).json(products);
+    }
+);
 
 /**
  * @swagger
@@ -602,15 +616,20 @@ app.get('/api/products', authMiddleware, roleMiddleware(['user', 'seller', 'admi
  *       404:
  *         description: Нет товара с таким id
  */
-app.get('/api/products/:id', authMiddleware, roleMiddleware(['user', 'seller', 'admin']), (req, res) => {
-    const product = products.find((p) => p.id === req.params.id);
+app.get(
+    '/api/products/:id',
+    authMiddleware,
+    roleMiddleware(['user', 'seller', 'admin']),
+    (req, res) => {
+        const product = products.find((p) => p.id === req.params.id);
 
-    if (!product) {
-        return res.status(404).json({ error: 'Нет товара с таким id' });
+        if (!product) {
+            return res.status(404).json({ error: 'Нет товара с таким id' });
+        }
+
+        res.status(200).json(product);
     }
-
-    res.status(200).json(product);
-});
+);
 
 /**
  * @swagger
@@ -646,6 +665,9 @@ app.get('/api/products/:id', authMiddleware, roleMiddleware(['user', 'seller', '
  *               price:
  *                 type: number
  *                 example: 10000
+ *               imageUrl:
+ *                 type: string
+ *                 example: https://example.com/image.jpg
  *     responses:
  *       200:
  *         description: Товар обновлен
@@ -656,22 +678,28 @@ app.get('/api/products/:id', authMiddleware, roleMiddleware(['user', 'seller', '
  *       404:
  *         description: Нет товара с таким id
  */
-app.put('/api/products/:id', authMiddleware, roleMiddleware(['seller', 'admin']), (req, res) => {
-    const product = products.find((p) => p.id === req.params.id);
+app.put(
+    '/api/products/:id',
+    authMiddleware,
+    roleMiddleware(['seller', 'admin']),
+    (req, res) => {
+        const product = products.find((p) => p.id === req.params.id);
 
-    if (!product) {
-        return res.status(404).json({ error: 'Нет товара с таким id' });
+        if (!product) {
+            return res.status(404).json({ error: 'Нет товара с таким id' });
+        }
+
+        const { title, category, description, price, imageUrl } = req.body;
+
+        if (title !== undefined) product.title = title;
+        if (category !== undefined) product.category = category;
+        if (description !== undefined) product.description = description;
+        if (price !== undefined) product.price = price;
+        if (imageUrl !== undefined) product.imageUrl = imageUrl;
+
+        res.status(200).json(product);
     }
-
-    const { title, category, description, price } = req.body;
-
-    if (title !== undefined) product.title = title;
-    if (category !== undefined) product.category = category;
-    if (description !== undefined) product.description = description;
-    if (price !== undefined) product.price = price;
-
-    res.status(200).json(product);
-});
+);
 
 /**
  * @swagger
@@ -698,15 +726,20 @@ app.put('/api/products/:id', authMiddleware, roleMiddleware(['seller', 'admin'])
  *       404:
  *         description: Нет товара с таким id
  */
-app.delete('/api/products/:id', authMiddleware, roleMiddleware(['admin']), (req, res) => {
-    const product = products.find((p) => p.id === req.params.id);
+app.delete(
+    '/api/products/:id',
+    authMiddleware,
+    roleMiddleware(['admin']),
+    (req, res) => {
+        const product = products.find((p) => p.id === req.params.id);
 
-    if (!product) {
-        return res.status(404).json({ error: 'Нет товара с таким id' });
+        if (!product) {
+            return res.status(404).json({ error: 'Нет товара с таким id' });
+        }
+
+        products = products.filter((p) => p.id !== req.params.id);
+        res.status(200).json({ message: 'Товар удалён' });
     }
-
-    products = products.filter((p) => p.id !== req.params.id);
-    res.status(200).json({ message: 'Товар удалён' });
-});
+);
 
 app.listen(port, () => console.log(`Сервер запущен на http://localhost:${port}`));
